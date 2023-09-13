@@ -5,7 +5,50 @@
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <!--nuevamente el CSS está minimizado-->
         <style>
-            *,::after,::before{margin:0;padding:0;box-sizing:border-box}body{color:#222;background:#eee;font-family:Helvetica,sans-serif;font-size:.9rem}h1{margin-bottom:1rem;font-size:calc(1.5rem + 1vw)}#app{width:min(80vw,500px);padding:2rem 2rem 0;background:#fff;box-shadow:0 0 4px rgba(100,100,100,.1);position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);border-radius:.8rem}select{width:100%;padding:.5rem;color:#888;border-color:#ddd;border-radius:.4rem;box-shadow:inset 0 0 2px rgba(0,0,0,.1)}#resultado{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;padding:1rem 0}
+*,
+::after,
+::before {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+body {
+    color: #222;
+    background: #eee url("fondo.webp"); 0 0 no-repeat;
+    background-size: cover;
+    font-family: Helvetica, sans-serif;
+    font-size: 0.9rem;
+}
+h1 {
+    margin-bottom: 1rem;
+    font-size: calc(1.5rem + 1vw);
+}
+#app {
+    width: min(80vw, 500px);
+    padding: 2rem 2rem 0;
+    background: #fff;
+    box-shadow: 0 0 4px rgba(100, 100, 100, 0.1);
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    border-radius: 0.8rem;
+}
+select {
+    width: 100%;
+    padding: 0.5rem;
+    color: #888;
+    border-color: #ddd;
+    border-radius: 0.4rem;
+    box-shadow: inset 0 0 2px rgba(0, 0, 0, 0.1);
+}
+#resultado {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem 0;
+}
         </style>
     </head>
     <body>
@@ -21,6 +64,7 @@
             const titulo = document.querySelector("#lugar");
             const seleccionado = document.querySelector("#selector");
             const respuesta = document.querySelector("#resultado");
+            const todo = document.querySelector("#app");
             //creando la función cities
             async function cities() {
                 seleccionado.disabled = false;
@@ -33,10 +77,17 @@
             cities().catch((error) => console.error(error));
             //creando la función weather
             async function weather(ciudad) {
-                const segundo = await fetch("https://api.openweathermap.org/data/2.5/weather?q=" + ciudad + ",cl&units=metric&appid=3cbb8b1c762aa280350b49e05d0d73f6&lang=es");
+                const segundo = await fetch("https://api.openweathermap.org/data/2.5/weather?q=" + ciudad + ",kr&units=metric&appid=3cbb8b1c762aa280350b49e05d0d73f6&lang=es");
                 const tiempo = await segundo.json();
                 console.log(tiempo);
-                respuesta.innerHTML = `<div><img src="https://openweathermap.org/img/wn/${tiempo.weather[0].icon}.png"></div><div>Temperatura: <strong>${tiempo.main.temp}</strong> ºC</div><div>Viento: <strong>${tiempo.wind.speed}</strong>km/h&nbsp;&nbsp;</div>`;
+                if(tiempo.main.temp<20){
+                todo.style.background = "#c38ce3";
+                }else if(tiempo.main.temp>20&&tiempo.main.temp<21){
+                todo.style.background = "#ff7af4";
+                }else{
+                todo.style.background = "#ff8d02";
+                }
+                respuesta.innerHTML = `<div><img src="https://openweathermap.org/img/wn/${tiempo.weather[0].icon}.png"></div><div>Temperatura: <strong>${tiempo.main.temp}</strong> ºC</div><div>Viento: <strong>${tiempo.wind.speed}</strong>km/h</div>`;
             }
             seleccionado.addEventListener("change", function (event) {
                 let valor = seleccionado.value;
