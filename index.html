@@ -10,7 +10,7 @@
     </head>
     <body>
         <div id="app">
-            <h1 id="lugar">Chile</h1>
+            <h1 id="lugar">Corea del Sur</h1>
             <select name="select" id="selector" disabled>
                 <option>Selecciona una ciudad…</option>
             </select>
@@ -36,7 +36,7 @@
                 const segundo = await fetch("https://api.openweathermap.org/data/2.5/weather?q=" + ciudad + ",cl&units=metric&appid=3cbb8b1c762aa280350b49e05d0d73f6&lang=es");
                 const tiempo = await segundo.json();
                 console.log(tiempo);
-                respuesta.innerHTML = `<div><img src="https://openweathermap.org/img/wn/${tiempo.weather[0].icon}.png"></div><div>Temperatura: <strong>${tiempo.main.temp}</strong> ºC</div><div>Viento: <strong>${tiempo.wind.speed}</strong>%&nbsp;&nbsp;</div>`;
+                respuesta.innerHTML = `<div><img src="https://openweathermap.org/img/wn/${tiempo.weather[0].icon}.png"></div><div>Temperatura: <strong>${tiempo.main.temp}</strong> ºC</div><div>Viento: <strong>${tiempo.wind.speed}</strong>km/h&nbsp;&nbsp;</div>`;
             }
             seleccionado.addEventListener("change", function (event) {
                 let valor = seleccionado.value;
